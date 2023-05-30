@@ -35,5 +35,9 @@ thiserror = "1.0.29"
 tokio-stream = { version = "0.1.9", features = ["net"] }
 
 [[example]]
-name = "inconsistent_namespace"
-path = "inconsistent_namespace.rs"
+name = "create_with_inconsistent_namespace"
+path = "create_with_inconsistent_namespace.rs"
+
+[[example]]
+name = "update_with_old_rv"
+path = "update_with_old_rv.rs"
