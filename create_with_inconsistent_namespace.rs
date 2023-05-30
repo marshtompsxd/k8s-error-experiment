@@ -7,15 +7,11 @@ use kube::{
     api::{Api, ObjectMeta, PostParams},
     Client,
 };
-use tracing::*;
 
 #[tokio::main]
 async fn main() -> Result<()> {
-    tracing_subscriber::fmt::init();
-
-    info!("running simple-controller");
     let client = Client::try_default().await?;
-    let cm_api = Api::<ConfigMap>::namespaced(client.clone(), &"default".to_string());
+    let cm_api = Api::<ConfigMap>::namespaced(client.clone(), "default");
     let cm = ConfigMap {
         metadata: ObjectMeta {
             name: Some("my-configmap".to_string()),
@@ -30,7 +26,7 @@ async fn main() -> Result<()> {
         Err(e) => {
             // You are expected to see the error:
             // ApiError: the namespace of the provided object does not match the namespace sent on the request: BadRequest (ErrorResponse { status: "Failure", message: "the namespace of the provided object does not match the namespace sent on the request", reason: "BadRequest", code: 400 })
-            println!("{}", e);
+            println!("This creation fails with:\n{}", e);
         }
         _ => {}
     }
