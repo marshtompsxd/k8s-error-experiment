@@ -35,9 +35,21 @@ thiserror = "1.0.29"
 tokio-stream = { version = "0.1.9", features = ["net"] }
 
 [[example]]
+name = "create_with_invalid_name"
+path = "create_with_invalid_name.rs"
+
+[[example]]
+name = "create_without_name"
+path = "create_without_name.rs"
+
+[[example]]
 name = "create_with_inconsistent_namespace"
 path = "create_with_inconsistent_namespace.rs"
 
 [[example]]
 name = "update_with_old_rv"
 path = "update_with_old_rv.rs"
+
+[[example]]
+name = "update_with_fake_rv"
+path = "update_with_fake_rv.rs"
