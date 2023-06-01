@@ -47,6 +47,10 @@ name = "create_with_creation_timestamp"
 path = "create_with_creation_timestamp.rs"
 
 [[example]]
+name = "create_with_rv"
+path = "create_with_rv.rs"
+
+[[example]]
 name = "create_without_name"
 path = "create_without_name.rs"
 
