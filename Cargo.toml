@@ -17,6 +17,10 @@ latest = ["k8s-openapi/v1_26"]
 [dependencies]
 tokio-util = "0.7.0"
 anyhow = "1.0.44"
+chrono = { version = "0.4.1", default-features = false, features = [
+	"alloc", # for chrono::DateTime::<Utc>::to_rfc3339_opts
+	"serde", # for chrono::DateTime<Utc>: serde::Deserialize, serde::Serialize
+] }
 futures = "0.3.17"
 kube = { version = "0.78.0", default-features = false, features = ["admission"] }
 kube-derive = { version = "0.78.0", default-features = false } # only needed to opt out of schema
@@ -47,6 +51,10 @@ name = "create_with_creation_timestamp"
 path = "create_with_creation_timestamp.rs"
 
 [[example]]
+name = "create_with_uid"
+path = "create_with_uid.rs"
+
+[[example]]
 name = "create_with_rv"
 path = "create_with_rv.rs"
 
@@ -59,9 +67,37 @@ name = "create_with_inconsistent_namespace"
 path = "create_with_inconsistent_namespace.rs"
 
 [[example]]
+name = "update_with_no_rv"
+path = "update_with_no_rv.rs"
+
+[[example]]
 name = "update_with_old_rv"
 path = "update_with_old_rv.rs"
 
 [[example]]
+name = "update_with_inconsistent_metadata"
+path = "update_with_inconsistent_metadata.rs"
+
+[[example]]
 name = "update_with_fake_rv"
 path = "update_with_fake_rv.rs"
+
+[[example]]
+name = "update_with_no_change"
+path = "update_with_no_change.rs"
+
+[[example]]
+name = "update_with_no_rv_and_no_change"
+path = "update_with_no_rv_and_no_change.rs"
+
+[[example]]
+name = "update_creation_timestamp"
+path = "update_creation_timestamp.rs"
+
+[[example]]
+name = "update_uid"
+path = "update_uid.rs"
+
+[[example]]
+name = "update_generate_name"
+path = "update_generate_name.rs"

@@ -11,8 +11,6 @@ use std::collections::BTreeMap;
 
 #[tokio::main]
 async fn main() -> Result<()> {
-    tracing_subscriber::fmt::init();
-
     let pp = PostParams::default();
     let client = Client::try_default().await?;
     let cm_api = Api::<ConfigMap>::namespaced(client.clone(), "default");

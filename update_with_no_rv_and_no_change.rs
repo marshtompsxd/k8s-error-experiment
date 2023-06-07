@@ -27,26 +27,43 @@ async fn main() -> Result<()> {
     cm_api.create(&pp, &cm).await?;
 
     let created_cm = cm_api.get(&cm_name).await.unwrap();
+    println!(
+        "rv is {}",
+        created_cm.metadata.resource_version.as_ref().unwrap()
+    );
 
-    let updated_cm_1 = ConfigMap {
-        data: Some(BTreeMap::from([("key".to_string(), "value".to_string())])),
-        ..created_cm.clone()
-    };
-    cm_api.replace(&cm_name, &pp, &updated_cm_1).await?;
-
-    let updated_cm_2 = ConfigMap {
-        data: Some(BTreeMap::from([("key".to_string(), "value2".to_string())])),
-        ..created_cm.clone()
-    };
-
-    match cm_api.replace(&cm_name, &pp, &updated_cm_2).await {
+    // The update succeeds
+    match cm_api
+        .replace(
+            &cm_name,
+            &pp,
+            &ConfigMap {
+                metadata: ObjectMeta {
+                    resource_version: None,
+                    ..created_cm.metadata.clone()
+                },
+                ..created_cm.clone()
+            },
+        )
+        .await
+    {
         Err(e) => {
-            // You are expected to see the error:
-            // ApiError: Operation cannot be fulfilled on configmaps "my-configmap": the object has been modified; please apply your changes to the latest version and try again: Conflict (ErrorResponse { status: "Failure", message: "Operation cannot be fulfilled on configmaps \"my-configmap\": the object has been modified; please apply your changes to the latest version and try again", reason: "Conflict", code: 409 })
             println!("This update fails with:\n{}", e);
         }
         _ => {}
     }
+
+    println!(
+        "new rv is {}",
+        cm_api
+            .get(&cm_name)
+            .await
+            .unwrap()
+            .metadata
+            .resource_version
+            .as_ref()
+            .unwrap()
+    );
 
     Ok(())
 }

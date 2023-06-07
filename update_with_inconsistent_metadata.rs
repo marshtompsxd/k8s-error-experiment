@@ -2,7 +2,7 @@
 #![allow(clippy::unnecessary_lazy_evaluations)]
 
 use anyhow::Result;
-use k8s_openapi::api::core::v1::ConfigMap;
+use k8s_openapi::api::core::v1::{ConfigMap, Namespace};
 use kube::{
     api::{Api, ObjectMeta, PostParams},
     Client,
@@ -32,17 +32,29 @@ async fn main() -> Result<()> {
         data: Some(BTreeMap::from([("key".to_string(), "value".to_string())])),
         ..created_cm.clone()
     };
-    cm_api.replace(&cm_name, &pp, &updated_cm_1).await?;
+    match cm_api
+        .replace("some-other-configmap", &pp, &updated_cm_1)
+        .await
+    {
+        Err(e) => {
+            // You are expected to see the error:
+            // ApiError: the name of the object (my-configmap) does not match the name on the URL (some-other-configmap): BadRequest (ErrorResponse { status: "Failure", message: "the name of the object (my-configmap) does not match the name on the URL (some-other-configmap)", reason: "BadRequest", code: 400 })
+            println!("This update fails with:\n{}", e);
+        }
+        _ => {}
+    }
 
     let updated_cm_2 = ConfigMap {
-        data: Some(BTreeMap::from([("key".to_string(), "value2".to_string())])),
+        metadata: ObjectMeta {
+            namespace: Some("other".to_string()),
+            ..created_cm.clone().metadata
+        },
         ..created_cm.clone()
     };
-
     match cm_api.replace(&cm_name, &pp, &updated_cm_2).await {
         Err(e) => {
             // You are expected to see the error:
-            // ApiError: Operation cannot be fulfilled on configmaps "my-configmap": the object has been modified; please apply your changes to the latest version and try again: Conflict (ErrorResponse { status: "Failure", message: "Operation cannot be fulfilled on configmaps \"my-configmap\": the object has been modified; please apply your changes to the latest version and try again", reason: "Conflict", code: 409 })
+            // ApiError: the namespace of the provided object does not match the namespace sent on the request: BadRequest (ErrorResponse { status: "Failure", message: "the namespace of the provided object does not match the namespace sent on the request", reason: "BadRequest", code: 400 })
             println!("This update fails with:\n{}", e);
         }
         _ => {}
