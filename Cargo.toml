@@ -15,7 +15,6 @@ ws = ["kube/ws"]
 latest = ["k8s-openapi/v1_26"]
 
 [dependencies]
-tokio-util = "0.7.0"
 anyhow = "1.0.44"
 chrono = { version = "0.4.1", default-features = false, features = [
 	"alloc", # for chrono::DateTime::<Utc>::to_rfc3339_opts
@@ -37,6 +36,7 @@ tracing-subscriber = "0.3.3"
 http = "0.2.5"
 thiserror = "1.0.29"
 tokio-stream = { version = "0.1.9", features = ["net"] }
+either = "1.8.1"
 
 [[example]]
 name = "create_with_invalid_name"
@@ -49,6 +49,10 @@ path = "create_with_status.rs"
 [[example]]
 name = "create_with_creation_timestamp"
 path = "create_with_creation_timestamp.rs"
+
+[[example]]
+name = "create_with_deletion_timestamp"
+path = "create_with_deletion_timestamp.rs"
 
 [[example]]
 name = "create_with_uid"
@@ -65,6 +69,26 @@ path = "create_without_name.rs"
 [[example]]
 name = "create_with_inconsistent_namespace"
 path = "create_with_inconsistent_namespace.rs"
+
+[[example]]
+name = "delete_pod"
+path = "delete_pod.rs"
+
+[[example]]
+name = "delete_stateful_set"
+path = "delete_stateful_set.rs"
+
+[[example]]
+name = "delete_configmap"
+path = "delete_configmap.rs"
+
+[[example]]
+name = "delete_configmap_with_finalizer"
+path = "delete_configmap_with_finalizer.rs"
+
+[[example]]
+name = "update_cr_with_no_rv"
+path = "update_cr_with_no_rv.rs"
 
 [[example]]
 name = "update_with_no_rv"
@@ -101,3 +125,15 @@ path = "update_uid.rs"
 [[example]]
 name = "update_generate_name"
 path = "update_generate_name.rs"
+
+[[example]]
+name = "update_labels"
+path = "update_labels.rs"
+
+[[example]]
+name = "update_without_name"
+path = "update_without_name.rs"
+
+[[example]]
+name = "update_without_namespace"
+path = "update_without_namespace.rs"

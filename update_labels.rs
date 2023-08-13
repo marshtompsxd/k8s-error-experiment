@@ -18,7 +18,6 @@ async fn main() -> Result<()> {
     let cm = ConfigMap {
         metadata: ObjectMeta {
             name: Some(cm_name.clone()),
-            generate_name: Some("a".to_string()),
             ..ObjectMeta::default()
         },
         data: None,
@@ -39,7 +38,10 @@ async fn main() -> Result<()> {
             &pp,
             &ConfigMap {
                 metadata: ObjectMeta {
-                    generate_name: Some("b".to_string()),
+                    labels: Some(BTreeMap::from([(
+                        "app".to_string(),
+                        "my-configmap".to_string(),
+                    )])),
                     ..created_cm.metadata.clone()
                 },
                 ..created_cm.clone()
@@ -60,7 +62,7 @@ async fn main() -> Result<()> {
             &pp,
             &ConfigMap {
                 metadata: ObjectMeta {
-                    generate_name: None,
+                    labels: None,
                     ..updated_cm.metadata.clone()
                 },
                 ..updated_cm.clone()

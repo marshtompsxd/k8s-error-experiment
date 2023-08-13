@@ -7,6 +7,7 @@ use kube::{
     api::{Api, ObjectMeta, PostParams},
     Client,
 };
+use kube_core::Resource;
 use std::collections::BTreeMap;
 
 #[tokio::main]
@@ -18,7 +19,6 @@ async fn main() -> Result<()> {
     let cm = ConfigMap {
         metadata: ObjectMeta {
             name: Some(cm_name.clone()),
-            generate_name: Some("a".to_string()),
             ..ObjectMeta::default()
         },
         data: None,
@@ -29,7 +29,7 @@ async fn main() -> Result<()> {
 
     let created_cm = cm_api.get(&cm_name).await.unwrap();
     println!(
-        "rv is {}",
+        "rv is {} before update",
         created_cm.metadata.resource_version.as_ref().unwrap()
     );
 
@@ -39,45 +39,19 @@ async fn main() -> Result<()> {
             &pp,
             &ConfigMap {
                 metadata: ObjectMeta {
-                    generate_name: Some("b".to_string()),
-                    ..created_cm.metadata.clone()
+                    namespace: None,
+                    ..created_cm.metadata
                 },
-                ..created_cm.clone()
+                data: Some(BTreeMap::from([("key".to_string(), "value".to_string())])),
+                ..Default::default()
             },
         )
         .await?;
 
     let updated_cm = cm_api.get(&cm_name).await.unwrap();
-
     println!(
-        "new rv is {}",
-        updated_cm.metadata.resource_version.as_ref().unwrap()
-    );
-
-    cm_api
-        .replace(
-            &cm_name,
-            &pp,
-            &ConfigMap {
-                metadata: ObjectMeta {
-                    generate_name: None,
-                    ..updated_cm.metadata.clone()
-                },
-                ..updated_cm.clone()
-            },
-        )
-        .await?;
-
-    println!(
-        "new rv is {}",
-        cm_api
-            .get(&cm_name)
-            .await
-            .unwrap()
-            .metadata
-            .resource_version
-            .as_ref()
-            .unwrap()
+        "rv is {} after update",
+        updated_cm.metadata.resource_version.unwrap()
     );
 
     Ok(())

@@ -617,6 +617,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "chrono",
+ "either",
  "futures",
  "http",
  "k8s-openapi",
@@ -631,7 +632,6 @@ dependencies = [
  "thiserror",
  "tokio",
  "tokio-stream",
- "tokio-util",
  "tracing",
  "tracing-subscriber",
 ]
