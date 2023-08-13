@@ -123,6 +123,15 @@ name = "update_uid"
 path = "update_uid.rs"
 
 [[example]]
+name = "update_owner_reference"
+path = "update_owner_reference.rs"
+
+
+[[example]]
+name = "update_owner_reference2"
+path = "update_owner_reference2.rs"
+
+[[example]]
 name = "update_generate_name"
 path = "update_generate_name.rs"
 
