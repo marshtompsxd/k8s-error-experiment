@@ -39,6 +39,18 @@ tokio-stream = { version = "0.1.9", features = ["net"] }
 either = "1.8.1"
 
 [[example]]
+name = "get_cr"
+path = "get_cr.rs"
+
+[[example]]
+name = "create_with_multiple_controller_reference"
+path = "create_with_multiple_controller_reference.rs"
+
+[[example]]
+name = "create_with_dangling_reference"
+path = "create_with_dangling_reference.rs"
+
+[[example]]
 name = "create_with_invalid_name"
 path = "create_with_invalid_name.rs"
 
@@ -125,7 +137,6 @@ path = "update_uid.rs"
 [[example]]
 name = "update_owner_reference"
 path = "update_owner_reference.rs"
-
 
 [[example]]
 name = "update_owner_reference2"

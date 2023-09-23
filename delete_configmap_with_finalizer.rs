@@ -34,6 +34,16 @@ async fn main() -> Result<()> {
         _ => {}
     }
 
+    println!(
+        "rv is {}",
+        cm_api
+            .get(&cm_name)
+            .await?
+            .metadata
+            .resource_version
+            .unwrap()
+    );
+
     // This one will say delete has started for ConfigMap
     let dp = DeleteParams::default();
     match cm_api.delete("my-configmap", &dp).await {
@@ -44,6 +54,16 @@ async fn main() -> Result<()> {
         Err(e) => println!("delete has failed with {}", e),
     }
 
+    println!(
+        "rv is {}",
+        cm_api
+            .get(&cm_name)
+            .await?
+            .metadata
+            .resource_version
+            .unwrap()
+    );
+
     // This one says delete has started for ConfigMap
     match cm_api.delete("my-configmap", &dp).await {
         Ok(e) => match e {
@@ -52,6 +72,16 @@ async fn main() -> Result<()> {
         },
         Err(e) => println!("delete has failed with {}", e),
     }
+
+    println!(
+        "rv is {}",
+        cm_api
+            .get(&cm_name)
+            .await?
+            .metadata
+            .resource_version
+            .unwrap()
+    );
 
     Ok(())
 }
