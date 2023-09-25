@@ -5,6 +5,7 @@ metadata:
 spec:
   group: nullable.se
   names:
+    categories: []
     kind: ConfigMapGenerator
     plural: configmapgenerators
     shortNames:
@@ -12,15 +13,43 @@ spec:
     singular: configmapgenerator
   scope: Namespaced
   versions:
-    - name: v1
-      served: true
-      storage: true
+    - additionalPrinterColumns: []
+      name: v1
       schema:
         openAPIV3Schema:
-          type: object
+          description: "Auto-generated derived type for ConfigMapGeneratorSpec via `CustomResource`"
           properties:
             spec:
-              type: object
               properties:
                 content:
                   type: string
+                expected_replicas:
+                  format: int32
+                  type: integer
+                  x-kubernetes-validations:
+                    - rule: "self >= oldSelf"
+                      message: expected replicas should never decrease
+              required:
+                - content
+                - expected_replicas
+              type: object
+            status:
+              nullable: true
+              properties:
+                replicas:
+                  format: int32
+                  type: integer
+                  x-kubernetes-validations:
+                    - rule: "self >= oldSelf"
+                      message: replicas should never decrease
+              required:
+                - replicas
+              type: object
+          required:
+            - spec
+          title: ConfigMapGenerator
+          type: object
+      served: true
+      storage: true
+      subresources:
+        status: {}
