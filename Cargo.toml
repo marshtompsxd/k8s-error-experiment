@@ -91,6 +91,10 @@ name = "delete_stateful_set"
 path = "delete_stateful_set.rs"
 
 [[example]]
+name = "delete_param"
+path = "delete_param.rs"
+
+[[example]]
 name = "delete_configmap"
 path = "delete_configmap.rs"
 
@@ -157,3 +161,7 @@ path = "update_without_name.rs"
 [[example]]
 name = "update_without_namespace"
 path = "update_without_namespace.rs"
+
+[[example]]
+name = "patch_owner_references"
+path = "patch_owner_references.rs"
