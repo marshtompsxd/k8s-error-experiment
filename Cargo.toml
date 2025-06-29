@@ -47,6 +47,10 @@ name = "create_with_multiple_controller_reference"
 path = "create_with_multiple_controller_reference.rs"
 
 [[example]]
+name = "create_with_owner_reference_in_different_ns"
+path = "create_with_owner_reference_in_different_ns.rs"
+
+[[example]]
 name = "create_with_dangling_reference"
 path = "create_with_dangling_reference.rs"
 
